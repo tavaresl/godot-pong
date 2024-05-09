@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=3 uid="uid://bgo2v0odgcs8v"]
+
+[ext_resource type="Script" path="res://scripts/BallController.gd" id="1_wk2wx"]
+[ext_resource type="Script" path="res://scripts/BallSpriteRenderer.gd" id="2_m75pb"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_i4pdi"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_sggx5"]
+
+[node name="Ball" type="CharacterBody2D"]
+script = ExtResource("1_wk2wx")
+
+[node name="PaddleCollisionShape" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_i4pdi")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("CanvasTexture_sggx5")
+script = ExtResource("2_m75pb")

@@ -1,0 +1,93 @@
+[gd_scene load_steps=12 format=3 uid="uid://cl003w3k7w5p3"]
+
+[ext_resource type="PackedScene" uid="uid://bxhw3akrfsxd3" path="res://scenes/paddle.tscn" id="1_5ek4h"]
+[ext_resource type="Script" path="res://scripts/GameManager.gd" id="1_7xy5t"]
+[ext_resource type="PackedScene" uid="uid://cmgydmfplhubk" path="res://scenes/wall.tscn" id="2_e7hfa"]
+[ext_resource type="Script" path="res://scripts/PlayerMovement.gd" id="2_jqhwc"]
+[ext_resource type="Script" path="res://scripts/Enemy.gd" id="3_43dh5"]
+[ext_resource type="PackedScene" uid="uid://bgo2v0odgcs8v" path="res://scenes/ball.tscn" id="4_xxqbu"]
+[ext_resource type="PackedScene" uid="uid://dwiwnif4xhqx7" path="res://scenes/goal.tscn" id="6_a2x5l"]
+[ext_resource type="Script" path="res://scripts/EnemyGoalController.gd" id="7_3nvv0"]
+[ext_resource type="Script" path="res://scripts/PlayerGoal.gd" id="9_2fiqx"]
+[ext_resource type="Script" path="res://scripts/PlayerScore.gd" id="9_4dpyq"]
+[ext_resource type="Script" path="res://scripts/EnemyScore.gd" id="10_7edkn"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="GameManager" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("1_7xy5t")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+offset = Vector2(2.08165e-12, 2.08165e-12)
+
+[node name="Player" parent="." instance=ExtResource("1_5ek4h")]
+position = Vector2(-768, 2.08165e-12)
+collision_mask = 6
+script = ExtResource("2_jqhwc")
+
+[node name="Enemy" parent="." node_paths=PackedStringArray("ball") instance=ExtResource("1_5ek4h")]
+position = Vector2(768, 2.08165e-12)
+scale = Vector2(-1, -1)
+collision_mask = 6
+script = ExtResource("3_43dh5")
+ball = NodePath("../Ball")
+
+[node name="Ball" parent="." instance=ExtResource("4_xxqbu")]
+collision_layer = 2
+collision_mask = 5
+motion_mode = 1
+
+[node name="Walls" type="Node2D" parent="."]
+position = Vector2(2.08165e-12, 2.08165e-12)
+
+[node name="Top" parent="Walls" instance=ExtResource("2_e7hfa")]
+position = Vector2(2.08165e-12, -450)
+rotation = 3.14159
+collision_layer = 4
+collision_mask = 3
+
+[node name="Bottom" parent="Walls" instance=ExtResource("2_e7hfa")]
+position = Vector2(2.08165e-12, 450)
+collision_layer = 4
+collision_mask = 3
+
+[node name="Goals" type="Node" parent="."]
+
+[node name="EnemyGoal" parent="Goals" instance=ExtResource("6_a2x5l")]
+position = Vector2(-840, 2.08165e-12)
+rotation = 1.5708
+collision_mask = 2
+input_pickable = false
+script = ExtResource("7_3nvv0")
+
+[node name="PlayerGoal" parent="Goals" instance=ExtResource("6_a2x5l")]
+position = Vector2(840, 2.08165e-12)
+rotation = 1.5708
+scale = Vector2(-1, -1)
+collision_mask = 2
+input_pickable = false
+script = ExtResource("9_2fiqx")
+
+[node name="PlayerScore" type="Label" parent="."]
+offset_left = -572.0
+offset_top = -367.0
+offset_right = -532.0
+offset_bottom = -344.0
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("9_4dpyq")
+
+[node name="EnemyScore" type="Label" parent="."]
+offset_left = 495.0
+offset_top = -367.0
+offset_right = 535.0
+offset_bottom = -344.0
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("10_7edkn")
+
+[connection signal="body_entered" from="Goals/EnemyGoal" to="Goals/EnemyGoal" method="_on_body_entered"]
+[connection signal="body_entered" from="Goals/PlayerGoal" to="Goals/PlayerGoal" method="_on_body_entered"]
