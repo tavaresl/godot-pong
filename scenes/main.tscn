@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cl003w3k7w5p3"]
+[gd_scene load_steps=17 format=3 uid="uid://cl003w3k7w5p3"]
 
 [ext_resource type="PackedScene" uid="uid://bxhw3akrfsxd3" path="res://scenes/paddle.tscn" id="1_5ek4h"]
 [ext_resource type="Script" path="res://scripts/GameManager.gd" id="1_7xy5t"]
@@ -7,39 +7,59 @@
 [ext_resource type="Script" path="res://scripts/Enemy.gd" id="3_43dh5"]
 [ext_resource type="PackedScene" uid="uid://bgo2v0odgcs8v" path="res://scenes/ball.tscn" id="4_xxqbu"]
 [ext_resource type="PackedScene" uid="uid://dwiwnif4xhqx7" path="res://scenes/goal.tscn" id="6_a2x5l"]
-[ext_resource type="Script" path="res://scripts/EnemyGoalController.gd" id="7_3nvv0"]
-[ext_resource type="Script" path="res://scripts/PlayerGoal.gd" id="9_2fiqx"]
+[ext_resource type="Script" path="res://scripts/GoalController.gd" id="7_3nvv0"]
 [ext_resource type="Script" path="res://scripts/PlayerScore.gd" id="9_4dpyq"]
 [ext_resource type="Script" path="res://scripts/EnemyScore.gd" id="10_7edkn"]
+[ext_resource type="PackedScene" uid="uid://ck1gc2lo8ivip" path="res://scenes/game_over.tscn" id="11_pcise"]
 
-[node name="Node2D" type="Node2D"]
+[sub_resource type="LabelSettings" id="LabelSettings_3p2fv"]
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_xhvrn"]
+font_size = 32
+
+[sub_resource type="SystemFont" id="SystemFont_5p04k"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_xhpoq"]
+font = SubResource("SystemFont_5p04k")
+font_size = 96
+
+[sub_resource type="LabelSettings" id="LabelSettings_bh7sx"]
+font_size = 40
+
+[node name="Node2D" type="Node"]
 
 [node name="GameManager" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("1_7xy5t")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(960, 540)
 offset = Vector2(2.08165e-12, 2.08165e-12)
 
 [node name="Player" parent="." instance=ExtResource("1_5ek4h")]
-position = Vector2(-768, 2.08165e-12)
+unique_name_in_owner = true
+position = Vector2(192, 540)
 collision_mask = 6
 script = ExtResource("2_jqhwc")
 
 [node name="Enemy" parent="." node_paths=PackedStringArray("ball") instance=ExtResource("1_5ek4h")]
-position = Vector2(768, 2.08165e-12)
-scale = Vector2(-1, -1)
+unique_name_in_owner = true
+position = Vector2(1728, 540)
+rotation = -3.14159
 collision_mask = 6
 script = ExtResource("3_43dh5")
 ball = NodePath("../Ball")
 
 [node name="Ball" parent="." instance=ExtResource("4_xxqbu")]
+unique_name_in_owner = true
+position = Vector2(960, 540)
 collision_layer = 2
 collision_mask = 5
 motion_mode = 1
 
 [node name="Walls" type="Node2D" parent="."]
-position = Vector2(2.08165e-12, 2.08165e-12)
+position = Vector2(960, 540)
 
 [node name="Top" parent="Walls" instance=ExtResource("2_e7hfa")]
 position = Vector2(2.08165e-12, -450)
@@ -54,40 +74,126 @@ collision_mask = 3
 
 [node name="Goals" type="Node" parent="."]
 
-[node name="EnemyGoal" parent="Goals" instance=ExtResource("6_a2x5l")]
-position = Vector2(-840, 2.08165e-12)
+[node name="EnemyGoal" parent="Goals" node_paths=PackedStringArray("target") instance=ExtResource("6_a2x5l")]
+position = Vector2(120, 540)
 rotation = 1.5708
 collision_mask = 2
 input_pickable = false
 script = ExtResource("7_3nvv0")
+target = NodePath("../../Enemy")
 
-[node name="PlayerGoal" parent="Goals" instance=ExtResource("6_a2x5l")]
-position = Vector2(840, 2.08165e-12)
+[node name="PlayerGoal" parent="Goals" node_paths=PackedStringArray("target") instance=ExtResource("6_a2x5l")]
+position = Vector2(1800, 540)
 rotation = 1.5708
 scale = Vector2(-1, -1)
 collision_mask = 2
 input_pickable = false
-script = ExtResource("9_2fiqx")
+script = ExtResource("7_3nvv0")
+target = NodePath("../../Player")
 
 [node name="PlayerScore" type="Label" parent="."]
-offset_left = -572.0
-offset_top = -367.0
-offset_right = -532.0
-offset_bottom = -344.0
+offset_left = 388.0
+offset_top = 173.0
+offset_right = 428.0
+offset_bottom = 218.0
 text = "0"
+label_settings = SubResource("LabelSettings_3p2fv")
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("9_4dpyq")
 
 [node name="EnemyScore" type="Label" parent="."]
-offset_left = 495.0
-offset_top = -367.0
-offset_right = 535.0
-offset_bottom = -344.0
+offset_left = 1455.0
+offset_top = 173.0
+offset_right = 1495.0
+offset_bottom = 218.0
 text = "0"
+label_settings = SubResource("LabelSettings_xhvrn")
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("10_7edkn")
 
+[node name="GameOver" parent="." instance=ExtResource("11_pcise")]
+unique_name_in_owner = true
+visible = false
+pivot_offset = Vector2(960, 540)
+
+[node name="ColorRect" type="ColorRect" parent="GameOver"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.784314)
+
+[node name="GameOverLabel" type="Label" parent="GameOver"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -260.5
+offset_top = 181.0
+offset_right = 260.5
+offset_bottom = 313.0
+grow_horizontal = 2
+pivot_offset = Vector2(2.08165e-12, 2.08165e-12)
+text = "Game Over"
+label_settings = SubResource("LabelSettings_xhpoq")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MessageLabel" type="Label" parent="GameOver"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -400.0
+offset_top = 382.0
+offset_right = 400.0
+offset_bottom = 482.0
+grow_horizontal = 2
+text = "{PLACEHOLDER_TEXT}"
+label_settings = SubResource("LabelSettings_bh7sx")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RestartButton" type="Button" parent="GameOver"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = 94.5
+offset_right = -29.0
+offset_bottom = 136.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
+text = "Restart"
+
+[node name="QuitButton" type="Button" parent="GameOver"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 29.0
+offset_top = 94.5
+offset_right = 120.001
+offset_bottom = 136.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
+text = "Quit
+"
+
+[connection signal="ready" from="GameManager" to="GameManager" method="_on_ready"]
+[connection signal="ready" from="Ball" to="Ball" method="_on_ready"]
 [connection signal="body_entered" from="Goals/EnemyGoal" to="Goals/EnemyGoal" method="_on_body_entered"]
 [connection signal="body_entered" from="Goals/PlayerGoal" to="Goals/PlayerGoal" method="_on_body_entered"]
+[connection signal="pressed" from="GameOver/RestartButton" to="GameManager" method="_on_restart_button_pressed"]
+[connection signal="pressed" from="GameOver/QuitButton" to="GameManager" method="_on_quit_button_pressed"]
