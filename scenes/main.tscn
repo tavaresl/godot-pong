@@ -3,8 +3,8 @@
 [ext_resource type="PackedScene" uid="uid://bxhw3akrfsxd3" path="res://scenes/paddle.tscn" id="1_5ek4h"]
 [ext_resource type="Script" path="res://scripts/GameManager.gd" id="1_7xy5t"]
 [ext_resource type="PackedScene" uid="uid://cmgydmfplhubk" path="res://scenes/wall.tscn" id="2_e7hfa"]
-[ext_resource type="Script" path="res://scripts/PlayerMovement.gd" id="2_jqhwc"]
-[ext_resource type="Script" path="res://scripts/Enemy.gd" id="3_43dh5"]
+[ext_resource type="Script" path="res://scripts/PlayerController.gd" id="2_jqhwc"]
+[ext_resource type="Script" path="res://scripts/EnemyController.gd" id="3_43dh5"]
 [ext_resource type="PackedScene" uid="uid://bgo2v0odgcs8v" path="res://scenes/ball.tscn" id="4_xxqbu"]
 [ext_resource type="PackedScene" uid="uid://dwiwnif4xhqx7" path="res://scenes/goal.tscn" id="6_a2x5l"]
 [ext_resource type="Script" path="res://scripts/GoalController.gd" id="7_3nvv0"]
@@ -43,13 +43,12 @@ position = Vector2(192, 540)
 collision_mask = 6
 script = ExtResource("2_jqhwc")
 
-[node name="Enemy" parent="." node_paths=PackedStringArray("ball") instance=ExtResource("1_5ek4h")]
+[node name="Enemy" parent="." instance=ExtResource("1_5ek4h")]
 unique_name_in_owner = true
 position = Vector2(1728, 540)
 rotation = -3.14159
 collision_mask = 6
 script = ExtResource("3_43dh5")
-ball = NodePath("../Ball")
 
 [node name="Ball" parent="." instance=ExtResource("4_xxqbu")]
 unique_name_in_owner = true
@@ -57,6 +56,7 @@ position = Vector2(960, 540)
 collision_layer = 2
 collision_mask = 5
 motion_mode = 1
+max_speed = 1200
 
 [node name="Walls" type="Node2D" parent="."]
 position = Vector2(960, 540)
@@ -192,7 +192,6 @@ text = "Quit
 "
 
 [connection signal="ready" from="GameManager" to="GameManager" method="_on_ready"]
-[connection signal="ready" from="Ball" to="Ball" method="_on_ready"]
 [connection signal="body_entered" from="Goals/EnemyGoal" to="Goals/EnemyGoal" method="_on_body_entered"]
 [connection signal="body_entered" from="Goals/PlayerGoal" to="Goals/PlayerGoal" method="_on_body_entered"]
 [connection signal="pressed" from="GameOver/RestartButton" to="GameManager" method="_on_restart_button_pressed"]

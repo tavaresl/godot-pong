@@ -1,11 +1,7 @@
 extends PhysicsBody2D
 
 @onready var game_manager = %GameManager
-
-const MIN_SPEED = 0
-const MAX_SPEED = 512
-var speed = 512
-var is_moving = false
+@export var speed = 400
 
 func _physics_process(delta: float):
 	if game_manager.game_state != game_manager.GameStates.Running:

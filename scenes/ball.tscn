@@ -16,3 +16,5 @@ shape = SubResource("CircleShape2D_i4pdi")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = SubResource("CanvasTexture_sggx5")
 script = ExtResource("2_m75pb")
+
+[connection signal="ready" from="." to="." method="_on_ready"]
