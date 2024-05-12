@@ -25,17 +25,15 @@ var enemy_score: int:
 func add_point_to(target: CharacterBody2D):
 	scores[target.name] += 1
 	_check_victory()
-	
 
 func _check_victory():
 	if scores[player.name] == max_score:
-		game_state = GameStates.Over
 		winner = player
 	elif scores[enemy.name] == max_score:
-		game_state = GameStates.Over
 		winner = enemy
 		
 	if winner != null:
+		game_state = GameStates.Over
 		game_over.show()
 		message_label.text = "You win!" if winner == player else "You lost."
 

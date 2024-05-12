@@ -5,8 +5,8 @@
 [sub_resource type="CanvasTexture" id="CanvasTexture_qdxfd"]
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_3d6gt"]
-a = Vector2(7, -64)
-b = Vector2(7, 62)
+a = Vector2(7, -66)
+b = Vector2(7, 64)
 
 [node name="Player" type="CharacterBody2D"]
 position = Vector2(2.08165e-12, 2.08165e-12)
