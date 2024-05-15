@@ -32,10 +32,13 @@ func _check_victory():
 	elif scores[enemy.name] == max_score:
 		winner = enemy
 		
-	if winner != null:
-		game_state = GameStates.Over
-		game_over.show()
-		message_label.text = "You win!" if winner == player else "You lost."
+	if winner == null:
+		return
+		
+
+	game_state = GameStates.Over
+	game_over.show()
+	message_label.text = "You win!" if winner == player else "You lost."
 
 func reset_scores():
 	scores = {
@@ -52,5 +55,4 @@ func _on_quit_button_pressed():
 func _on_restart_button_pressed():
 	reset_scores()
 	winner = null
-	game_state = GameStates.Running
-	game_over.hide()
+	get_tree().reload_current_scene()

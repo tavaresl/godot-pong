@@ -1,5 +1,6 @@
 extends ColorRect
 
+@onready var game_manager = %GameManager
 @onready var player = %Player
 @onready var color_rect = $ColorRect
 
@@ -19,6 +20,9 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	if game_manager.game_state != game_manager.GameStates.Running:
+		return
+
 	if _boost_fuel <= 0.0:
 		_ran_out = true
 	
