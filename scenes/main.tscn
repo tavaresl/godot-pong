@@ -7,7 +7,7 @@
 [ext_resource type="Script" path="res://scripts/EnemyController.gd" id="3_43dh5"]
 [ext_resource type="Script" path="res://scripts/PlayerBooster.gd" id="4_ug36w"]
 [ext_resource type="PackedScene" uid="uid://bgo2v0odgcs8v" path="res://scenes/ball.tscn" id="4_xxqbu"]
-[ext_resource type="Script" path="res://scripts/EnemyBoostController.gd" id="5_c786w"]
+[ext_resource type="Script" path="res://scripts/EnemyBooster.gd" id="5_c786w"]
 [ext_resource type="PackedScene" uid="uid://dwiwnif4xhqx7" path="res://scenes/goal.tscn" id="6_a2x5l"]
 [ext_resource type="Script" path="res://scripts/GoalController.gd" id="7_3nvv0"]
 [ext_resource type="Script" path="res://scripts/PlayerScore.gd" id="9_4dpyq"]
@@ -62,7 +62,7 @@ script = ExtResource("3_43dh5")
 min_distance = 50.0
 min_boost_distance = 75.0
 
-[node name="EnemyBoost" type="Node" parent="Enemy"]
+[node name="EnemyBooster" type="Node" parent="Enemy"]
 script = ExtResource("5_c786w")
 boost_rate = 1.5
 

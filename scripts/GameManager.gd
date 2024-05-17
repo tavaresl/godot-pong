@@ -7,6 +7,7 @@ extends Node
 
 @export var max_score = 10
 
+var booster_controller: BoosterController
 var winner: Node2D = null
 
 enum GameStates { Running, Paused, Over }
@@ -34,7 +35,6 @@ func _check_victory():
 		
 	if winner == null:
 		return
-		
 
 	game_state = GameStates.Over
 	game_over.show()

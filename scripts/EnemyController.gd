@@ -1,8 +1,6 @@
 class_name EnemyController
 
-
 extends CharacterBody2D
-
 
 @onready var game_manager = %GameManager
 @onready var ball = %Ball
@@ -47,10 +45,8 @@ func _physics_process(delta):
 
 	move_and_collide(dir * _speed * delta)
 
-
 func boost_speed(boost_rate: float):
 	_speed = base_speed * boost_rate
-
 
 func _on_ready():
 	_speed = base_speed
