@@ -30,12 +30,12 @@ func _physics_process(delta):
 
 			var diff = position.y - paddle_position.y
 			var angle = remap(abs(diff), 0, paddle_sprite.scale.y / 2, 0, 30)
-			var sign = normal.x * diff / abs(diff) if diff != 0 else 1
+			var op_sign = normal.x * diff / abs(diff) if diff != 0 else 1
 			
 			speed_booster += booster_increase_rate
 			speed = remap(angle, 0, 30, min_speed, max_speed) * speed_booster
 
-			var direction = normal.rotated(sign * deg_to_rad(angle))
+			var direction = normal.rotated(op_sign * deg_to_rad(angle))
 			var incoming_dir = Vector2(dir)
 
 			if incoming_dir.y < 0 and diff > 0:
@@ -48,8 +48,8 @@ func _physics_process(delta):
 			dir = dir.bounce(normal)
 
 func reset():
-	var sign = -(dir.y / abs(dir.y))
-	var angle = deg_to_rad(sign * 7.5)
+	var op_sign = -(dir.y / abs(dir.y))
+	var angle = deg_to_rad(op_sign * 7.5)
 
 	if dir.x < 0:
 		dir = Vector2.RIGHT.rotated(angle)

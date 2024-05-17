@@ -1,10 +1,11 @@
-[gd_scene load_steps=19 format=3 uid="uid://cl003w3k7w5p3"]
+[gd_scene load_steps=20 format=3 uid="uid://cl003w3k7w5p3"]
 
 [ext_resource type="PackedScene" uid="uid://bxhw3akrfsxd3" path="res://scenes/paddle.tscn" id="1_5ek4h"]
 [ext_resource type="Script" path="res://scripts/GameManager.gd" id="1_7xy5t"]
 [ext_resource type="PackedScene" uid="uid://cmgydmfplhubk" path="res://scenes/wall.tscn" id="2_e7hfa"]
 [ext_resource type="Script" path="res://scripts/PlayerController.gd" id="2_jqhwc"]
 [ext_resource type="Script" path="res://scripts/EnemyController.gd" id="3_43dh5"]
+[ext_resource type="Script" path="res://scripts/PlayerBooster.gd" id="4_ug36w"]
 [ext_resource type="PackedScene" uid="uid://bgo2v0odgcs8v" path="res://scenes/ball.tscn" id="4_xxqbu"]
 [ext_resource type="Script" path="res://scripts/EnemyBoostController.gd" id="5_c786w"]
 [ext_resource type="PackedScene" uid="uid://dwiwnif4xhqx7" path="res://scenes/goal.tscn" id="6_a2x5l"]
@@ -12,7 +13,7 @@
 [ext_resource type="Script" path="res://scripts/PlayerScore.gd" id="9_4dpyq"]
 [ext_resource type="Script" path="res://scripts/EnemyScore.gd" id="10_7edkn"]
 [ext_resource type="PackedScene" uid="uid://ck1gc2lo8ivip" path="res://scenes/game_over.tscn" id="11_pcise"]
-[ext_resource type="Script" path="res://scripts/PlayerBoostController.gd" id="12_r8hfm"]
+[ext_resource type="Script" path="res://scripts/FuelIndicator.gd" id="12_r8hfm"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_3p2fv"]
 font_size = 32
@@ -44,6 +45,13 @@ unique_name_in_owner = true
 position = Vector2(192, 540)
 collision_mask = 6
 script = ExtResource("2_jqhwc")
+
+[node name="PlayerBooster" type="Node" parent="Player"]
+script = ExtResource("4_ug36w")
+boost_rate = 1.5
+running_out_penalty = 0.8
+consumption_rate = 80.0
+refueling_rate = 25.0
 
 [node name="Enemy" parent="." instance=ExtResource("1_5ek4h")]
 unique_name_in_owner = true
@@ -86,7 +94,7 @@ offset_top = 1019.0
 offset_right = 421.0
 offset_bottom = 1059.0
 script = ExtResource("12_r8hfm")
-boost_rate = 2.0
+blink_frequency = 2.0
 
 [node name="ColorRect" type="ColorRect" parent="FuelIndicator"]
 layout_mode = 0
@@ -216,6 +224,9 @@ text = "Quit
 "
 
 [connection signal="ready" from="GameManager" to="GameManager" method="_on_ready"]
+[connection signal="fuel_consumed" from="Player/PlayerBooster" to="FuelIndicator" method="_on_player_boost_controller_fuel_consumed"]
+[connection signal="ran_out" from="Player/PlayerBooster" to="FuelIndicator" method="_on_player_boost_controller_ran_out"]
+[connection signal="refueled" from="Player/PlayerBooster" to="FuelIndicator" method="_on_player_boost_controller_refueled"]
 [connection signal="ready" from="Enemy" to="Enemy" method="_on_ready"]
 [connection signal="body_entered" from="Goals/EnemyGoal" to="Goals/EnemyGoal" method="_on_body_entered"]
 [connection signal="body_entered" from="Goals/PlayerGoal" to="Goals/PlayerGoal" method="_on_body_entered"]

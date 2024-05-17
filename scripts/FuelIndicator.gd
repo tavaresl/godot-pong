@@ -1,14 +1,9 @@
 extends ColorRect
 
 @onready var game_manager = %GameManager
-@onready var player = %Player
 @onready var color_rect = $ColorRect
 
-@export_range(0.0, 2.0) var boost_rate = 1.2
-@export var consumption_rate = 80.0
-@export var refuel_rate = 25.0
-@export_range(0.1, 1.0) var ran_out_penalty_rate = 0.8
-@export var blink_frequency = 1
+@export var blink_frequency: float
 
 var _initial_color: Color
 var _boost_fuel = 100.0
@@ -26,9 +21,7 @@ func _process(delta):
 	if _boost_fuel <= 0.0:
 		_ran_out = true
 	
-	if _ran_out:
-		player.boost_speed(ran_out_penalty_rate)
-		
+	if _ran_out:		
 		if _boost_fuel >= 100.0:
 			_ran_out = false
 			_stop_blinking()
@@ -39,16 +32,25 @@ func _process(delta):
 		return
 	
 	if Input.is_action_pressed("ui_boost") and _boost_fuel > 0:
-		player.boost_speed(boost_rate)
-		_boost_fuel -= clamp(consumption_rate * delta, 0, 100.0)
 		color_rect.size.x = remap(_boost_fuel, 0, 100, 0, size.x - color_rect.position.x * 2)
 	elif not Input.is_action_pressed("ui_boost") and _boost_fuel < 100:
-		player.boost_speed(1.0)
 		_refuel(delta)
 
 func _refuel(delta: float):
-	_boost_fuel += clamp(refuel_rate * delta, 0, 100.0)
 	color_rect.size.x = remap(_boost_fuel, 0, 100, 0, size.x - color_rect.position.x * 2)
+
+
+func _on_player_boost_controller_fuel_consumed(fuel_level):
+	_boost_fuel = fuel_level
+
+
+func _on_player_boost_controller_ran_out():
+	_ran_out = true
+
+
+func _on_player_boost_controller_refueled(fuel):
+	_boost_fuel = fuel
+
 
 #region Blinking
 

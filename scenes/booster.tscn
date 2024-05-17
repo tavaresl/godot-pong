@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://gpn4anx022hn"]
+
+[ext_resource type="Script" path="res://scripts/BoosterController.gd" id="1_xvpit"]
+
+[node name="BoostController" type="Node"]
+script = ExtResource("1_xvpit")
