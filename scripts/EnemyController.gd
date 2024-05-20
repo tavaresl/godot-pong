@@ -1,10 +1,9 @@
 class_name EnemyController
 
-extends CharacterBody2D
+extends Paddle
 
 @onready var game_manager = %GameManager
 @onready var ball = %Ball
-@export var base_speed = 400
 
 @export_category("Ball Pursuit")
 @export var min_distance: float
@@ -44,9 +43,6 @@ func _physics_process(delta):
 			dir = Vector2.DOWN
 
 	move_and_collide(dir * _speed * delta)
-
-func boost_speed(boost_rate: float):
-	_speed = base_speed * boost_rate
 
 func _on_ready():
 	_speed = base_speed

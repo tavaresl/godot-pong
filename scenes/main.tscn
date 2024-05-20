@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://cl003w3k7w5p3"]
+[gd_scene load_steps=21 format=3 uid="uid://cl003w3k7w5p3"]
 
 [ext_resource type="PackedScene" uid="uid://bxhw3akrfsxd3" path="res://scenes/paddle.tscn" id="1_5ek4h"]
 [ext_resource type="Script" path="res://scripts/GameManager.gd" id="1_7xy5t"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://dwiwnif4xhqx7" path="res://scenes/goal.tscn" id="6_a2x5l"]
 [ext_resource type="Script" path="res://scripts/GoalController.gd" id="7_3nvv0"]
 [ext_resource type="Script" path="res://scripts/PlayerScore.gd" id="9_4dpyq"]
+[ext_resource type="Script" path="res://scripts/PowerUpsManager.gd" id="9_d3h2p"]
 [ext_resource type="Script" path="res://scripts/EnemyScore.gd" id="10_7edkn"]
 [ext_resource type="PackedScene" uid="uid://ck1gc2lo8ivip" path="res://scenes/game_over.tscn" id="11_pcise"]
 [ext_resource type="Script" path="res://scripts/FuelIndicator.gd" id="12_r8hfm"]
@@ -70,7 +71,7 @@ boost_rate = 1.5
 unique_name_in_owner = true
 position = Vector2(960, 540)
 collision_layer = 2
-collision_mask = 5
+collision_mask = 13
 motion_mode = 1
 max_speed = 1200
 
@@ -87,6 +88,41 @@ collision_mask = 3
 position = Vector2(2.08165e-12, 450)
 collision_layer = 4
 collision_mask = 3
+
+[node name="PowerUpsManager" type="Node" parent="."]
+script = ExtResource("9_d3h2p")
+
+[node name="EnemyPowerUps" type="Node2D" parent="PowerUpsManager"]
+position = Vector2(1800, 46)
+
+[node name="PowerUpsContainer" type="HBoxContainer" parent="PowerUpsManager/EnemyPowerUps"]
+layout_direction = 2
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 64.0
+grow_vertical = 2
+alignment = 1
+
+[node name="PlayerPowerUps" type="Node2D" parent="PowerUpsManager"]
+position = Vector2(468, 1040)
+
+[node name="PowerUpsContainer" type="HBoxContainer" parent="PowerUpsManager/PlayerPowerUps"]
+layout_direction = 2
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 64.0
+grow_vertical = 2
+alignment = 1
+
+[node name="AvailablePowerUps" type="Node" parent="PowerUpsManager"]
+
+[node name="SpawnTimer" type="Timer" parent="PowerUpsManager"]
+wait_time = 2.0
+one_shot = true
+
+[node name="SpawnCooldownTimer" type="Timer" parent="PowerUpsManager"]
+wait_time = 6.0
+one_shot = true
 
 [node name="FuelIndicator" type="ColorRect" parent="."]
 offset_left = 165.0
@@ -228,6 +264,8 @@ text = "Quit
 [connection signal="ran_out" from="Player/PlayerBooster" to="FuelIndicator" method="_on_player_boost_controller_ran_out"]
 [connection signal="refueled" from="Player/PlayerBooster" to="FuelIndicator" method="_on_player_boost_controller_refueled"]
 [connection signal="ready" from="Enemy" to="Enemy" method="_on_ready"]
+[connection signal="timeout" from="PowerUpsManager/SpawnTimer" to="PowerUpsManager" method="_on_spawn_timer_timeout"]
+[connection signal="timeout" from="PowerUpsManager/SpawnCooldownTimer" to="PowerUpsManager" method="_on_spawn_cooldown_timer_timeout"]
 [connection signal="body_entered" from="Goals/EnemyGoal" to="Goals/EnemyGoal" method="_on_body_entered"]
 [connection signal="body_entered" from="Goals/PlayerGoal" to="Goals/PlayerGoal" method="_on_body_entered"]
 [connection signal="pressed" from="GameOver/RestartButton" to="GameManager" method="_on_restart_button_pressed"]

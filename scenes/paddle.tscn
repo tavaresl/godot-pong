@@ -20,3 +20,5 @@ texture = SubResource("CanvasTexture_qdxfd")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(8, 1)
 shape = SubResource("SegmentShape2D_3d6gt")
+
+[node name="PowerUps" type="Node" parent="."]

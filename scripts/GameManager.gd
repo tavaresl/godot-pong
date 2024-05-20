@@ -7,10 +7,11 @@ extends Node
 
 @export var max_score = 10
 
-var booster_controller: BoosterController
-var winner: Node2D = null
+enum GameStates {Running, Paused, Over}
+enum Characters {None, Player, Enemy}
 
-enum GameStates { Running, Paused, Over }
+var winner: Node2D = null
+var last_hit_by = player
 
 var scores = {}
 var game_state: GameStates = GameStates.Running
@@ -18,7 +19,7 @@ var game_state: GameStates = GameStates.Running
 var player_score: int:
 	get:
 		return scores[player.name]
-		
+
 var enemy_score: int:
 	get:
 		return scores[enemy.name]
@@ -32,7 +33,7 @@ func _check_victory():
 		winner = player
 	elif scores[enemy.name] == max_score:
 		winner = enemy
-		
+
 	if winner == null:
 		return
 

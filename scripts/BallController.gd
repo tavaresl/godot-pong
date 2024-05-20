@@ -1,6 +1,9 @@
 extends CharacterBody2D
 
+class_name Ball
+
 @onready var game_manager = %GameManager
+@onready var last_hit_by = %Player
 
 @export var min_speed = 800
 @export var max_speed = 1600
@@ -31,7 +34,9 @@ func _physics_process(delta):
 			var diff = position.y - paddle_position.y
 			var angle = remap(abs(diff), 0, paddle_sprite.scale.y / 2, 0, 30)
 			var op_sign = normal.x * diff / abs(diff) if diff != 0 else 1
-			
+
+			last_hit_by = collision.get_collider()
+
 			speed_booster += booster_increase_rate
 			speed = remap(angle, 0, 30, min_speed, max_speed) * speed_booster
 
