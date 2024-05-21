@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://Scripts/PowerUpController.gd" id="3_yqgdr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c1qv6"]
-size = Vector2(105, 106)
+size = Vector2(163, 160)
 
 [node name="PowerUp" type="Sprite2D"]
 position = Vector2(32, 32)

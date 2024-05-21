@@ -32,6 +32,7 @@ font_size = 96
 font_size = 40
 
 [node name="Node2D" type="Node"]
+metadata/_edit_vertical_guides_ = [1800.0]
 
 [node name="GameManager" type="Node" parent="."]
 unique_name_in_owner = true
@@ -93,10 +94,10 @@ collision_mask = 3
 script = ExtResource("9_d3h2p")
 
 [node name="EnemyPowerUps" type="Node2D" parent="PowerUpsManager"]
-position = Vector2(1800, 46)
+position = Vector2(1800, 44)
 
 [node name="PowerUpsContainer" type="HBoxContainer" parent="PowerUpsManager/EnemyPowerUps"]
-layout_direction = 2
+layout_direction = 3
 anchors_preset = 9
 anchor_bottom = 1.0
 offset_right = 64.0

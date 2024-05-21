@@ -1,4 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://bxhw3akrfsxd3"]
+[gd_scene load_steps=5 format=3 uid="uid://bxhw3akrfsxd3"]
+
+[ext_resource type="Script" path="res://scripts/PaddleResetter.gd" id="1_nv7qm"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_lljqn"]
 
@@ -8,7 +10,7 @@
 a = Vector2(7, -66)
 b = Vector2(7, 64)
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Paddle" type="CharacterBody2D"]
 position = Vector2(2.08165e-12, 2.08165e-12)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -22,3 +24,6 @@ position = Vector2(8, 1)
 shape = SubResource("SegmentShape2D_3d6gt")
 
 [node name="PowerUps" type="Node" parent="."]
+
+[node name="PaddleResetter" type="Node" parent="."]
+script = ExtResource("1_nv7qm")

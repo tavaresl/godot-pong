@@ -7,7 +7,6 @@ var parent: Node2D
 
 func _ready():
 	parent = get_parent()
-	pass
 
 func _on_area_2d_body_entered(_body: Node2D):
 	available_timer.stop()

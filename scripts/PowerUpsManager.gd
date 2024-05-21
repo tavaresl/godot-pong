@@ -11,24 +11,20 @@ extends Node
 @onready var _player_picked_area: HBoxContainer = $PlayerPowerUps/PowerUpsContainer
 @onready var _enemy_picked_area: HBoxContainer = $EnemyPowerUps/PowerUpsContainer
 
+var _player_effects: Array[PowerUp] = []
+var _enemy_effects: Array[PowerUp] = []
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$SpawnTimer.start()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	var player_power_ups = _player_picked_area.get_children()
-	var enemy_power_ups = _enemy_picked_area.get_children()
+	for effect in _player_effects:
+		effect.apply_effect( %Player)
 
-	for node in player_power_ups:
-		if node != null:
-			var power_up = node.get_node("PowerUp") as PowerUp
-			power_up.apply_effect( %Player)
-
-	for node in enemy_power_ups:
-		if node != null:
-			var power_up = node.get_node("PowerUp") as PowerUp
-			power_up.apply_effect( %Enemy)
+	for effect in _enemy_effects:
+		effect.apply_effect( %Enemy)
 
 func spawn(power_up: PackedScene):
 	var instance = power_up.instantiate() as PowerUp
@@ -53,6 +49,9 @@ func _on_spawn_cooldown_timer_timeout():
 
 func _on_power_up_picked(power_up: PowerUp):
 	var control = _power_up_control.instantiate()
+	var effects: Array[PowerUp] = []
+	var container: HBoxContainer = null
+	var target: Paddle = null
 	control.custom_minimum_size = Vector2(64, 64)
 
 	power_up.position = Vector2(32, 32)
@@ -60,12 +59,33 @@ func _on_power_up_picked(power_up: PowerUp):
 	power_up.reparent(control, false)
 
 	if %Ball.last_hit_by == %Player:
-		power_up.effect_timeout.connect(_on_power_up_effect_timeout.bind( %Player))
-		_player_picked_area.add_child(control)
+		target = %Player
+		effects = _player_effects
+		container = _player_picked_area
 	elif %Ball.last_hit_by == %Enemy:
-		power_up.effect_timeout.connect(_on_power_up_effect_timeout.bind( %Enemy))
-		_enemy_picked_area.add_child(control)
+		target = %Enemy
+		effects = _enemy_effects
+		container = _enemy_picked_area
+
+	if container == null or target == null:
+		return
+
+	var matched_effects = effects.filter(func(e): return e.power_up_name == power_up.power_up_name)
+	var existing_effect = matched_effects.front() if not matched_effects.is_empty() else null
+
+	if existing_effect == null:
+		power_up.effect_timeout.connect(_on_power_up_effect_timeout.bind(target))
+		effects.append(power_up)
+		container.add_child(control)
+	else:
+		existing_effect.get_node("EffectTimer").start()
+		power_up.queue_free()
 
 func _on_power_up_effect_timeout(power_up: PowerUp, target: Paddle):
-	power_up.remove_effect(target)
+	if target == %Player:
+		_player_effects.remove_at(_player_effects.find(power_up))
+	elif target == %Enemy:
+		_enemy_effects.remove_at(_enemy_effects.find(power_up))
+
+	#power_up.remove_effect(target)
 	power_up.get_parent().queue_free()
