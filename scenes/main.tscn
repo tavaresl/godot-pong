@@ -47,6 +47,7 @@ unique_name_in_owner = true
 position = Vector2(192, 540)
 collision_mask = 6
 script = ExtResource("2_jqhwc")
+base_speed = 500.0
 
 [node name="PlayerBooster" type="Node" parent="Player"]
 script = ExtResource("4_ug36w")
@@ -63,6 +64,7 @@ collision_mask = 6
 script = ExtResource("3_43dh5")
 min_distance = 50.0
 min_boost_distance = 75.0
+base_speed = 500.0
 
 [node name="EnemyBooster" type="Node" parent="Enemy"]
 script = ExtResource("5_c786w")
@@ -74,7 +76,6 @@ position = Vector2(960, 540)
 collision_layer = 2
 collision_mask = 13
 motion_mode = 1
-max_speed = 1200
 
 [node name="Walls" type="Node2D" parent="."]
 position = Vector2(960, 540)

@@ -25,9 +25,8 @@ func _physics_process(delta):
 
 	if collision:
 		var normal = collision.get_normal()
-		var collider_name = collision.get_collider().name
 
-		if not ["Top", "Bottom"].has(collider_name):
+		if collision.get_collider() is Paddle:
 			var paddle_position = collision.get_collider().position
 			var paddle_sprite: Sprite2D = collision.get_collider().get_node("Sprite2D")
 

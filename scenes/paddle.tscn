@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://bxhw3akrfsxd3"]
 
-[ext_resource type="Script" path="res://scripts/PaddleResetter.gd" id="1_nv7qm"]
+[ext_resource type="Script" path="res://addons/resetter_node/ResetterNode.gd" id="2_ym46h"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_lljqn"]
 
@@ -19,11 +19,20 @@ position = Vector2(2.08165e-12, 2.08165e-12)
 scale = Vector2(32, 128)
 texture = SubResource("CanvasTexture_qdxfd")
 
+[node name="Resetter" type="Node" parent="Sprite2D"]
+script = ExtResource("2_ym46h")
+properties = Array[String](["scale"])
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(8, 1)
 shape = SubResource("SegmentShape2D_3d6gt")
 
-[node name="PowerUps" type="Node" parent="."]
+[node name="Resetter" type="Node" parent="CollisionShape2D"]
+script = ExtResource("2_ym46h")
+properties = Array[String](["shape.a", "shape.b"])
 
-[node name="PaddleResetter" type="Node" parent="."]
-script = ExtResource("1_nv7qm")
+[node name="CollisionShapeController" type="Node" parent="."]
+
+[node name="Resetter" type="Node" parent="."]
+script = ExtResource("2_ym46h")
+properties = Array[String](["base_speed", "position.x", "scale"])
