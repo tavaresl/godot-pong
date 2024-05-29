@@ -10,12 +10,18 @@ func _enter_tree():
 	pass
 
 func _ready():
+	if Engine.is_editor_hint():
+		return
+
 	var parent = get_parent()
 
 	for property in properties:
 		_initial_values[property] = _get_property_value(parent, property)
 
 func _process(delta):
+	if Engine.is_editor_hint():
+		return
+
 	var parent = get_parent()
 
 	for property in _initial_values:

@@ -16,6 +16,10 @@ config/features=PackedStringArray("4.2", "Forward Plus")
 boot_splash/bg_color=Color(0, 0, 0, 1)
 config/icon="res://icon.svg"
 
+[autoload]
+
+GameStateManager="*res://addons/game_state_manager/game_state_manager.tscn"
+
 [display]
 
 window/size/viewport_width=1920
@@ -25,7 +29,7 @@ window/vsync/vsync_mode=0
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/resetter_node/plugin.cfg")
+enabled=PackedStringArray("res://addons/game_state_manager/plugin.cfg", "res://addons/resetter_node/plugin.cfg")
 
 [input]
 

@@ -31,8 +31,7 @@ font_size = 96
 [sub_resource type="LabelSettings" id="LabelSettings_bh7sx"]
 font_size = 40
 
-[node name="Node2D" type="Node"]
-metadata/_edit_vertical_guides_ = [1800.0]
+[node name="Root" type="Node"]
 
 [node name="GameManager" type="Node" parent="."]
 unique_name_in_owner = true

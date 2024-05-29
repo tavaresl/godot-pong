@@ -11,6 +11,7 @@ func _ready():
 func _on_area_2d_body_entered(_body: Node2D):
 	available_timer.stop()
 	parent.picked.emit(parent)
+	GameStateManager.current_state = GameStateController.GameStates.CASTING_POWER_UP
 	effect_timer.start()
 
 func _on_available_timer_timeout():

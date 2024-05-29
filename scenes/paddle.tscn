@@ -1,5 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://bxhw3akrfsxd3"]
+[gd_scene load_steps=6 format=3 uid="uid://bxhw3akrfsxd3"]
 
+[ext_resource type="PackedScene" uid="uid://b0wim7pyhyv60" path="res://scenes/game_state_observer.tscn" id="2_ht2ij"]
 [ext_resource type="Script" path="res://addons/resetter_node/ResetterNode.gd" id="2_ym46h"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_lljqn"]
@@ -31,8 +32,9 @@ shape = SubResource("SegmentShape2D_3d6gt")
 script = ExtResource("2_ym46h")
 properties = Array[String](["shape.a", "shape.b"])
 
-[node name="CollisionShapeController" type="Node" parent="."]
-
 [node name="Resetter" type="Node" parent="."]
 script = ExtResource("2_ym46h")
 properties = Array[String](["base_speed", "position.x", "scale"])
+
+[node name="GameStateObserver" parent="." instance=ExtResource("2_ht2ij")]
+states_to_process = Array[int]([0])
